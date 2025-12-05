@@ -4,8 +4,8 @@ import java.util.Locale;
 import java.util.Set;
 
 public final class PasswordValidation {
-
     static final Set<String> commonPasswords = new HashSet<>(Arrays.asList("password","passwort", "12345678", "admin", "A2345678"));
+    static final String allowedSpecialChars= "!?@§$%&/()=+*#'-_.:;";
 
     static boolean hasMinLenght(String password) {
         if (password == null) {
@@ -82,11 +82,22 @@ public final class PasswordValidation {
         if (isCommonPassword(password)) {
             return false;
         }
+        if (!containsSpecialChar(password)) {
+            return false;
+        }
         return true;
     }
 
-    static boolean containsSpecialChar(String password, String allowed) {
-        //TODO
+    static boolean containsSpecialChar(String password) {
+        if (password == null) {
+            return false;
+        }
+        char[] chars = password.toCharArray();
+        for (char c : chars) {
+            if (allowedSpecialChars.contains(Character.toString(c))) {
+                return true;
+            }
+        }
         return false;
     }
 }
