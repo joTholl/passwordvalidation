@@ -1,6 +1,7 @@
 import java.security.SecureRandom;
 import java.util.*;
 
+
 public final class PasswordValidation {
     static final Set<String> commonPasswords = new HashSet<>(Arrays.asList("password", "passwort", "12345678", "admin", "A2345678"));
     static final String allowedSpecialChars = "!?@§$%&/()=+*#'-_.:;";
@@ -64,26 +65,30 @@ public final class PasswordValidation {
         return false;
     }
 
-    static boolean isValid(String password) {
+    static List<String> isValid(String password) {
+        List<String> result = new ArrayList<>();
         if (!hasMinLenght(password)) {
-            return false;
+            result.add("Weniger als 8 Zeichen!");
         }
         if (!containsDigit(password)) {
-            return false;
+            result.add("Keine Ziffer!");
         }
         if (!containsUpperChar(password)) {
-            return false;
+            result.add("Kein Großbuchstabe!");
         }
         if (!containsLowerChar(password)) {
-            return false;
+            result.add("Kein Kleinbuchstabe!");
         }
         if (isCommonPassword(password)) {
-            return false;
+            result.add("Unsicheres Passwort!");
         }
         if (!containsSpecialChar(password)) {
-            return false;
+            result.add("Kein Sonderzeichen oder ein falsches Sonderzeichen!");
         }
-        return true;
+        if (result.isEmpty()) {
+            result.add("Passwort erfolgreich validiert!");
+        }
+        return result;
     }
 
     static boolean containsSpecialChar(String password) {
@@ -99,7 +104,7 @@ public final class PasswordValidation {
         return false;
     }
 
-    static String generateSecurePasword(int lenght) {
+    static String generateSecurePassword(int lenght) {
         if (lenght < 8) {
             System.out.println("Mindestens 8 Zeichen!");
             return null;
@@ -136,10 +141,17 @@ public final class PasswordValidation {
         Collections.shuffle(Arrays.asList(password.toString().toCharArray()));
         if (isCommonPassword(password.toString())) {
             //If password randomly is in the commonPasswords List, do it again
-            return generateSecurePasword(lenght);
+            return generateSecurePassword(lenght);
         }
 
         return password.toString();
+    }
+
+    static void main() {
+        Scanner sc = new  Scanner(System.in);
+        System.out.println("Bitte Ihr Passwort zur Validierung eingeben:");
+        String password = sc.nextLine();
+        System.out.println(isValid(password));
     }
 
 }
