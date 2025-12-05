@@ -48,4 +48,10 @@ public class PasswordValidationTest {
     void containsSpecialCharTest(String given, boolean expected) {
         assertEquals(expected, PasswordValidation.containsSpecialChar(given));
     }
+
+    @ParameterizedTest
+    @CsvSource({"7,false", "8,true"})
+    void generateSecurePasswordTest(String given, boolean expected) {
+        assertEquals(expected, PasswordValidation.isValid(PasswordValidation.generateSecurePasword(Integer.parseInt(given))));
+    }
 }
