@@ -29,7 +29,7 @@ public class PasswordValidationTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"password,false","12345678,false","admin,false","Ek5jgn!?,true",",false"})
+    @CsvSource({"password,true","12345678,true","admin,true","Ek5jgn!?,false",",false"})
     void isCommonPasswordTest(String given, boolean expected){
         assertEquals(expected,PasswordValidation.isCommonPassword(given));
     }
