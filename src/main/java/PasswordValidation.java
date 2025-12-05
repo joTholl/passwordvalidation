@@ -1,4 +1,10 @@
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public final class PasswordValidation {
+
+    static final Set<String> commonPasswords = new HashSet<>(Arrays.asList("password", "12345678", "admin", "A2345678"));
 
     static boolean hasMinLenght(String password) {
         if (password == null) {
@@ -12,7 +18,7 @@ public final class PasswordValidation {
             return false;
         }
         for (int i = 0; i < 10; i++) {
-            if (password.contains(String.valueOf(i))){
+            if (password.contains(String.valueOf(i))) {
                 return true;
             }
         }
@@ -24,7 +30,7 @@ public final class PasswordValidation {
             return false;
         }
         for (int i = 0; i < password.length(); i++) {
-            if (password.charAt(i)>='A'&&password.charAt(i)<='Z') {
+            if (password.charAt(i) >= 'A' && password.charAt(i) <= 'Z') {
                 return true;
             }
         }
@@ -36,7 +42,7 @@ public final class PasswordValidation {
             return false;
         }
         for (int i = 0; i < password.length(); i++) {
-            if (password.charAt(i)>='a'&&password.charAt(i)<='z') {
+            if (password.charAt(i) >= 'a' && password.charAt(i) <= 'z') {
                 return true;
             }
         }
@@ -44,8 +50,18 @@ public final class PasswordValidation {
     }
 
     static boolean isCommonPassword(String password) {
-        //TODO
-        return false;
+        if (password == null) {
+            return false;
+        }
+        password = password.toLowerCase();
+        password = password.trim();
+        for (String commonPassword : commonPasswords) {
+            if (password.contains(commonPassword)) {
+                return false;
+            }
+
+        }
+        return true;
     }
 
     static boolean containsSpecialChar(String password, String allowed) {

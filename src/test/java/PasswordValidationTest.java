@@ -27,4 +27,10 @@ public class PasswordValidationTest {
     void containsLowerCharTest(String given, boolean expected){
         assertEquals(expected,PasswordValidation.containsLowerChar(given));
     }
+
+    @ParameterizedTest
+    @CsvSource({"password,false","12345678,false","admin,false","Ek5jgn!?,true",",false"})
+    void isCommonPasswordTest(String given, boolean expected){
+        assertEquals(expected,PasswordValidation.isCommonPassword(given));
+    }
 }
