@@ -5,7 +5,7 @@
 - mindestens eine Ziffer
 - mindestens ein Großbuchstabe
 - mindestens ein Kleinbuchstabe
-- mindestens ein Sonderzeichen
+- Hier entsteht ein Mergeconflict!
 - mindestens 8 Zeichen
 - nicht in einer Liste mit häufigen/schwachen Passwörtern
 
