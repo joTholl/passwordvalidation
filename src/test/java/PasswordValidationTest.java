@@ -21,4 +21,10 @@ public class PasswordValidationTest {
     void containsUpperCharTest(String given, boolean expected){
         assertEquals(expected,PasswordValidation.containsUpperChar(given));
     }
+
+    @ParameterizedTest
+    @CsvSource({"a,true","Abc,true","13,false","A,false",",false"})
+    void containsLowerCharTest(String given, boolean expected){
+        assertEquals(expected,PasswordValidation.containsLowerChar(given));
+    }
 }

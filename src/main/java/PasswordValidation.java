@@ -32,7 +32,14 @@ public final class PasswordValidation {
     }
 
     static boolean containsLowerChar(String password) {
-        //TODO
+        if (password == null) {
+            return false;
+        }
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i)>='a'&&password.charAt(i)<='z') {
+                return true;
+            }
+        }
         return false;
     }
 
