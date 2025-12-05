@@ -1,11 +1,10 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.security.SecureRandom;
+import java.util.*;
+
 
 public final class PasswordValidation {
-    static final Set<String> commonPasswords = new HashSet<>(Arrays.asList("password","passwort", "12345678", "admin", "A2345678"));
-    static final String allowedSpecialChars= "!?@§$%&/()=+*#'-_.:;";
+    static final Set<String> commonPasswords = new HashSet<>(Arrays.asList("password", "passwort", "12345678", "admin", "A2345678"));
+    static final String allowedSpecialChars = "!?@§$%&/()=+*#'-_.:;";
 
     static boolean hasMinLenght(String password) {
         if (password == null) {
@@ -66,26 +65,30 @@ public final class PasswordValidation {
         return false;
     }
 
-    static boolean isValid(String password) {
+    static List<String> isValid(String password) {
+        List<String> result = new ArrayList<>();
         if (!hasMinLenght(password)) {
-            return false;
+            result.add("Weniger als 8 Zeichen!");
         }
         if (!containsDigit(password)) {
-            return false;
+            result.add("Keine Ziffer!");
         }
         if (!containsUpperChar(password)) {
-            return false;
+            result.add("Kein Großbuchstabe!");
         }
         if (!containsLowerChar(password)) {
-            return false;
+            result.add("Kein Kleinbuchstabe!");
         }
         if (isCommonPassword(password)) {
-            return false;
+            result.add("Unsicheres Passwort!");
         }
         if (!containsSpecialChar(password)) {
-            return false;
+            result.add("Kein Sonderzeichen oder ein falsches Sonderzeichen!");
         }
-        return true;
+        if (result.isEmpty()) {
+            result.add("Passwort erfolgreich validiert!");
+        }
+        return result;
     }
 
     static boolean containsSpecialChar(String password) {
@@ -100,4 +103,55 @@ public final class PasswordValidation {
         }
         return false;
     }
+
+    static String generateSecurePassword(int lenght) {
+        if (lenght < 8) {
+            System.out.println("Mindestens 8 Zeichen!");
+            return null;
+        }
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder();
+        //Each Type has to be in the String
+        password.append((char) random.nextInt(65, 91));
+        password.append((char) random.nextInt(97, 123));
+        password.append(random.nextInt(0, 10));
+        password.append(allowedSpecialChars.charAt(random.nextInt(0, allowedSpecialChars.length())));
+
+        for (int i = 0; i < lenght - 4; i++) {
+            int ran = random.nextInt(0, 4);
+            switch (ran) {
+                case 0:
+                    //Digit
+                    password.append(random.nextInt(0, 10));
+                    break;
+                case 1:
+                    //Upper Char
+                    password.append((char) random.nextInt(65, 91));
+                    break;
+                case 2:
+                    //Lower Char
+                    password.append((char) random.nextInt(97, 123));
+                    break;
+                case 3:
+                    //Special Char
+                    password.append(allowedSpecialChars.charAt(random.nextInt(0, allowedSpecialChars.length())));
+                    break;
+            }
+        }
+        Collections.shuffle(Arrays.asList(password.toString().toCharArray()));
+        if (isCommonPassword(password.toString())) {
+            //If password randomly is in the commonPasswords List, do it again
+            return generateSecurePassword(lenght);
+        }
+
+        return password.toString();
+    }
+
+    static void main() {
+        Scanner sc = new  Scanner(System.in);
+        System.out.println("Bitte Ihr Passwort zur Validierung eingeben:");
+        String password = sc.nextLine();
+        System.out.println(isValid(password));
+    }
+
 }

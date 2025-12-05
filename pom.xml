@@ -16,6 +16,16 @@
             <version>6.0.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.1.1</version> <!-- Oder die neueste Version -->
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.2.5.Final</version> <!-- Beispiel-Version -->
+        </dependency>
     </dependencies>
 
     <build>
