@@ -1,4 +1,3 @@
-import javax.xml.stream.events.Characters;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
@@ -6,7 +5,7 @@ import java.util.Set;
 
 public final class PasswordValidation {
 
-    static final Set<String> commonPasswords = new HashSet<>(Arrays.asList("password", "12345678", "admin", "A2345678"));
+    static final Set<String> commonPasswords = new HashSet<>(Arrays.asList("password","passwort", "12345678", "admin", "A2345678"));
 
     static boolean hasMinLenght(String password) {
         if (password == null) {
@@ -67,12 +66,26 @@ public final class PasswordValidation {
         return false;
     }
 
-    static boolean containsSpecialChar(String password, String allowed) {
-        //TODO
-        return false;
+    static boolean isValid(String password) {
+        if (!hasMinLenght(password)) {
+            return false;
+        }
+        if (!containsDigit(password)) {
+            return false;
+        }
+        if (!containsUpperChar(password)) {
+            return false;
+        }
+        if (!containsLowerChar(password)) {
+            return false;
+        }
+        if (isCommonPassword(password)) {
+            return false;
+        }
+        return true;
     }
 
-    static boolean isValid(String password) {
+    static boolean containsSpecialChar(String password, String allowed) {
         //TODO
         return false;
     }
