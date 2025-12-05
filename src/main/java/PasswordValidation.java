@@ -1,5 +1,7 @@
+import javax.xml.stream.events.Characters;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public final class PasswordValidation {
@@ -17,11 +19,13 @@ public final class PasswordValidation {
         if (password == null) {
             return false;
         }
-        for (int i = 0; i < 10; i++) {
-            if (password.contains(String.valueOf(i))) {
+        char[] chars = password.toCharArray();
+        for (char c : chars) {
+            if (Character.isDigit(c)) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -29,8 +33,9 @@ public final class PasswordValidation {
         if (password == null) {
             return false;
         }
-        for (int i = 0; i < password.length(); i++) {
-            if (password.charAt(i) >= 'A' && password.charAt(i) <= 'Z') {
+        char[] chars = password.toCharArray();
+        for (char c : chars) {
+            if (Character.isUpperCase(c)) {
                 return true;
             }
         }
@@ -41,8 +46,9 @@ public final class PasswordValidation {
         if (password == null) {
             return false;
         }
-        for (int i = 0; i < password.length(); i++) {
-            if (password.charAt(i) >= 'a' && password.charAt(i) <= 'z') {
+        char[] chars = password.toCharArray();
+        for (char c : chars) {
+            if (Character.isLowerCase(c)) {
                 return true;
             }
         }
@@ -50,18 +56,15 @@ public final class PasswordValidation {
     }
 
     static boolean isCommonPassword(String password) {
-        if (password == null) {
-            return false;
-        }
-        password = password.toLowerCase();
-        password = password.trim();
+        password = password == null ? "" : password.trim().toLowerCase(Locale.ROOT);
+
         for (String commonPassword : commonPasswords) {
             if (password.contains(commonPassword)) {
-                return false;
+                return true;
             }
 
         }
-        return true;
+        return false;
     }
 
     static boolean containsSpecialChar(String password, String allowed) {
